@@ -15,7 +15,7 @@ public class TaskDatabaseApplication {
 		KafkaService kafkaService = context.getBean(KafkaService.class);
 		while(true) {
 			try {
-				kafkaService.conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/kartaca","root",null);
+				kafkaService.conn = DriverManager.getConnection("jdbc:mysql://task-database:3306/kartaca","root",null);
 				kafkaService.fetchLogData();
 			} catch (SQLException e) {
 				System.out.println("Error: Database connection failed.");
