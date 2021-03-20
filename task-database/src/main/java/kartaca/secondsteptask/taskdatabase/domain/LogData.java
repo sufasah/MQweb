@@ -1,13 +1,8 @@
-package kartaca.secondsteptask.taskdatabase;
-
-import org.springframework.lang.NonNull;
+package kartaca.secondsteptask.taskdatabase.domain;
 
 public class LogData {
-	@NonNull
 	private String methodType;
-	@NonNull
 	private float timeDelay;
-	@NonNull
 	private long timestamp;
 	
 	public LogData(){
