@@ -1,0 +1,5 @@
+kartaca\secondsteptask\taskapi\domain\LogData.class
+kartaca\secondsteptask\taskapi\resources\DataResource.class
+kartaca\secondsteptask\taskapi\TaskRestApiApplication.class
+kartaca\secondsteptask\taskapi\data\LogDao.class
+kartaca\secondsteptask\taskapi\services\KafkaService.class

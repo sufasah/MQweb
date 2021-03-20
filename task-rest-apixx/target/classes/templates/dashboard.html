@@ -1,0 +1,37 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<style type="text/css">
+	
+	body{
+		background-color:#FAFAF5;
+	}
+	div{
+		margin-top:50px;
+	}
+</style>
+<script type="text/javascript" th:src="@{/chart_manager.js}"></script>
+<script th:inline="javascript" type="text/javascript">
+	[# th:each="dataPoints : ${dataPointsList}"]
+		[# th:each="dataPoint : ${dataPoints}"]
+			yValue = parseFloat("[[${dataPoint.y}]]");
+			xValue = parseInt("[[${dataPoint.x}]]");
+			dataPoints[ [[${dataPointsStat.index}]] ].push({
+				x : xValue,
+				y : yValue,
+			});
+		[/]
+	[/]
+</script>
+</head>
+<body>
+<div id="chartAll" style="height: 370px; width: 100%;"></div>
+<div id="chartGet" style="height: 370px; width: 100%;"></div>
+<div id="chartPost" style="height: 370px; width: 100%;"></div>
+<div id="chartPut" style="height: 370px; width: 100%;"></div>
+<div id="chartDelete" style="height: 370px; width: 100%;"></div>
+<script type="text/javascript" th:src="@{/canvasjs.min.js}"></script>
+</body>
+</html> 
