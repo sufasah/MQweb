@@ -39,7 +39,9 @@ public class ChartService {
 				res.get(type).add(point);
 				
 			}
-		} catch (SQLException e) {}
+		} catch (SQLException e) {
+			System.out.println("LogsDao database connection failed.");
+		}
 		
 		return res;
 	}

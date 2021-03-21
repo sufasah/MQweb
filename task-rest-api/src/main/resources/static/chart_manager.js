@@ -6,6 +6,9 @@ var dataPoints = [
 ];
 window.onload = function() {
 	
+	var customToolTipContent=function(color){return '<div style="text-align:center;margin-top:5px;margin-bottom:5px;color:MidnightBlue;">{x}</div><span style="color:'+color+';">{name} : {y}</span>';}
+	var customHeaderColor="#4B0082";
+	var customHeaderFontSize = 24;
 	var chart = new CanvasJS.Chart("chartAll", {
 		zoomEnabled: false,
 		animationEnabled: true,
@@ -13,10 +16,12 @@ window.onload = function() {
 		backgroundColor: "#FAFAF5",
 		  theme: "light1",
 			title: {
-				text: "Rest Api Time Delay Per Response"
+				text: "Rest Api Time Delay Per Response",
+				fontColor: customHeaderColor,
+				fontSize: customHeaderFontSize,
 			},
 			axisX: {
-				title: "Click method types at top to make them visible or not.",
+				title: "Click method types at the top to make them visible or not.",
 			    interval: 1,
 			    intervalType: "minute",
 			    viewportMinimum: null,
@@ -27,12 +32,12 @@ window.onload = function() {
 				viewportMaximum: 3.0,
 			}, 
 			toolTip: {
-				shared: true
+				shared: true,
 			},
 			legend: {
 				cursor:"pointer",
 				verticalAlign: "top",
-				fontSize: 20,
+				fontSize: 16,
 				fontColor: "dimGrey",
 				itemclick : toggleDataSeries
 			},
@@ -48,7 +53,9 @@ window.onload = function() {
 				markerColor:"SeaGreen",
 				lineThickness: 2,
 				markerSize: 5,
-				dataPoints: dataPoints[0]
+				toolTipContent: customToolTipContent("SeaGreen"),
+				dataPoints: dataPoints[0],
+				
 			},
 			{				
 				type: "line",
@@ -62,6 +69,7 @@ window.onload = function() {
 				markerColor:"Gold",
 				lineThickness: 2,
 				markerSize: 5,
+				toolTipContent:'<span style="color:Gold;">{name} : {y}</span>',
 				dataPoints: dataPoints[1]
 			},
 			{				
@@ -76,6 +84,7 @@ window.onload = function() {
 				markerColor:"CornflowerBlue",
 				lineThickness: 2,
 				markerSize: 5,
+				toolTipContent:'<span style="color:CornflowerBlue;">{name} : {y}</span>',
 				dataPoints: dataPoints[2]
 			},
 			{				
@@ -90,6 +99,7 @@ window.onload = function() {
 				markerColor:"Crimson",
 				lineThickness: 2,
 				markerSize: 5,
+				toolTipContent:'<span style="color:Crimson;">{name} : {y}</span>',
 				dataPoints: dataPoints[3]
 			}]
 		});
@@ -101,10 +111,11 @@ window.onload = function() {
 			backgroundColor: "#FAFAF5",
 			  theme: "light1",
 				title: {
-					text: "Get Method Time Delay Per Response"
+					text: "Get Method Time Delay Per Response",
+					fontColor: customHeaderColor,
+					fontSize: customHeaderFontSize,
 				},
 				axisX: {
-					title: "Click method types at top to make them visible or not.",
 				    interval: 1,
 				    intervalType: "minute",
 				    viewportMinimum: null,
@@ -115,14 +126,12 @@ window.onload = function() {
 					viewportMaximum: 3.0,
 				}, 
 				toolTip: {
-					shared: true
+					shared: true,
 				},
 				legend: {
-					cursor:"pointer",
 					verticalAlign: "top",
-					fontSize: 20,
+					fontSize: 16,
 					fontColor: "dimGrey",
-					itemclick : toggleDataSeries
 				},
 				data: [{ 
 					type: "line",
@@ -136,6 +145,7 @@ window.onload = function() {
 					markerColor:"SeaGreen",
 					lineThickness: 3,
 					markerSize: 5,
+					toolTipContent: customToolTipContent("SeaGreen"),
 					dataPoints: dataPoints[0]
 				}]
 			});
@@ -147,10 +157,11 @@ window.onload = function() {
 		backgroundColor: "#FAFAF5",
 		  theme: "light1",
 			title: {
-				text: "Post Method Time Delay Per Response"
+				text: "Post Method Time Delay Per Response",
+				fontColor: customHeaderColor,
+				fontSize: customHeaderFontSize,
 			},
 			axisX: {
-				title: "Click method types at top to make them visible or not.",
 			    interval: 1,
 			    intervalType: "minute",
 			    viewportMinimum: null,
@@ -161,14 +172,12 @@ window.onload = function() {
 				viewportMaximum: 3.0,
 			}, 
 			toolTip: {
-				shared: true
+				shared: true,
 			},
 			legend: {
-				cursor:"pointer",
 				verticalAlign: "top",
-				fontSize: 20,
+				fontSize: 16,
 				fontColor: "dimGrey",
-				itemclick : toggleDataSeries
 			},
 			data: [{ 
 				type: "line",
@@ -182,6 +191,7 @@ window.onload = function() {
 				markerColor:"Gold",
 				lineThickness: 3,
 				markerSize: 5,
+				toolTipContent: customToolTipContent("Gold"),
 				dataPoints: dataPoints[1]
 			}]
 		});
@@ -193,10 +203,11 @@ window.onload = function() {
 		backgroundColor: "#FAFAF5",
 		  theme: "light1",
 			title: {
-				text: "Put Method Time Delay Per Response"
+				text: "Put Method Time Delay Per Response",
+				fontColor: customHeaderColor,
+				fontSize: customHeaderFontSize,
 			},
 			axisX: {
-				title: "Click method types at top to make them visible or not.",
 			    interval: 1,
 			    intervalType: "minute",
 			    viewportMinimum: null,
@@ -207,14 +218,12 @@ window.onload = function() {
 				viewportMaximum: 3.0,
 			}, 
 			toolTip: {
-				shared: true
+				shared: true,
 			},
 			legend: {
-				cursor:"pointer",
 				verticalAlign: "top",
-				fontSize: 20,
+				fontSize: 16,
 				fontColor: "dimGrey",
-				itemclick : toggleDataSeries
 			},
 			data: [{ 
 				type: "line",
@@ -227,8 +236,8 @@ window.onload = function() {
 				lineColor: "CornflowerBlue",
 				markerColor:"CornflowerBlue",
 				lineThickness: 3,
-				
 				markerSize: 5,
+				toolTipContent: customToolTipContent("CornflowerBlue"),
 				dataPoints: dataPoints[0]
 			}]
 		});
@@ -240,10 +249,11 @@ window.onload = function() {
 		backgroundColor: "#FAFAF5",
 		  theme: "light1",
 			title: {
-				text: "Delete Method Time Delay Per Response"
+				text: "Delete Method Time Delay Per Response",
+				fontColor: customHeaderColor,
+				fontSize: customHeaderFontSize,
 			},
 			axisX: {
-				title: "Click method types at top to make them visible or not.",
 			    interval: 1,
 			    intervalType: "minute",
 			    viewportMinimum: null,
@@ -254,14 +264,12 @@ window.onload = function() {
 				viewportMaximum: 3.0,
 			}, 
 			toolTip: {
-				shared: true
+				shared: true,
 			},
 			legend: {
-				cursor:"pointer",
 				verticalAlign: "top",
-				fontSize: 20,
+				fontSize: 16,
 				fontColor: "dimGrey",
-				itemclick : toggleDataSeries
 			},
 			data: [{ 
 				type: "line",
@@ -275,11 +283,12 @@ window.onload = function() {
 				markerColor:"Crimson",
 				lineThickness: 3,
 				markerSize: 5,
+				toolTipContent: customToolTipContent("Crimson"),
 				dataPoints: dataPoints[0]
 			}]
 		});
-		
-		
+	
+	
 	function toggleDataSeries(e) {
 		if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
 			e.dataSeries.visible = false;
@@ -290,7 +299,18 @@ window.onload = function() {
 		chart.render();
 	}
 	
-	 
+	
+	var webSocket = new SockJS('/dashboard');
+	var stompClient = Stomp.over(webSocket);
+	
+	stompClient.connect({},function(frame){
+		stompClient.subscribe("/last-logs/dashboard",function(message){
+			console.log("RECEIVED MESSAGE FROM WEBSOCKET -> "+message);
+		});
+	});
+	
+	
+		 
 	var updateInterval = 1000;
 	// initial value
 	var yValue1 = 2.1; 

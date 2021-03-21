@@ -26,7 +26,7 @@ public class KafkaService {
 	public void sendLogData(LogData data)  {
 		try {
 			if(producer==null)
-				producer=new KafkaProducer<String, String>(createKafkaConfiguration());
+				producer=new KafkaProducer<String, String>(createProducerConfiguration());
 			
 			String json = new ObjectMapper().writeValueAsString(data);
 			ProducerRecord<String, String> producerRecord = new ProducerRecord<String, String>(TOPIC,"logkey",json);
@@ -38,7 +38,7 @@ public class KafkaService {
 		}
 	}
 	
-	public static Properties createKafkaConfiguration() {
+	public static Properties createProducerConfiguration() {
 		Properties props = new Properties();
 		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,BOOTSTRAP_SERVERS);
 		props.put(ProducerConfig.CLIENT_ID_CONFIG,CLIENT_ID);
@@ -48,4 +48,5 @@ public class KafkaService {
 		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,"org.apache.kafka.common.serialization.StringSerializer");
 		return props;
 	}
+	
 }

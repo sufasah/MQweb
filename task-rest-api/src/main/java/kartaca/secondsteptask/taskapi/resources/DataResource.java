@@ -35,6 +35,8 @@ public class DataResource {
 	private KafkaService kafkaService;
 	
 	private void doTask(final String methodType) {
+		LogData logData = new LogData(methodType,new Random().nextFloat()*3,System.currentTimeMillis());
+		
 		try {			
 			if(logFile==null) 
 				logFile=new File(System.getProperty("user.dir")+"/mylog.txt");
@@ -43,7 +45,6 @@ public class DataResource {
 				logFile.createNewFile();
 			
 			FileWriter logWriter = new FileWriter(logFile,true);
-			LogData logData = new LogData(methodType,new Random().nextFloat()*3,System.currentTimeMillis());
 	
 			String logMsg= String.format(Locale.ENGLISH,"log: \"%s,%1.2f,%d\"\n",
 					logData.getMethodType(),
@@ -53,10 +54,15 @@ public class DataResource {
 			logWriter.append(logMsg);
 			logWriter.close();
 			
-			kafkaService.sendLogData(logData);
 		}catch(IOException e) {
 			throw new ApiRequestException("Log file 'mylog.txt' can not be created or opened.");
 		}
+		
+		try {
+			Thread.sleep(Math.round(logData.getTimeDelay()));
+		} catch (InterruptedException e) {}
+		
+		kafkaService.sendLogData(logData);
 	}
 	private ResponseEntity<Map<String,Object>> successMessage(){
 		Map<String,Object> result = new HashMap<String,Object>();

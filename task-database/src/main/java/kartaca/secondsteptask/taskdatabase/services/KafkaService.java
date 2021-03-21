@@ -59,7 +59,7 @@ public class KafkaService {
 		}catch(SQLTimeoutException e) {
 			System.out.println("Error: Database insertion timeout occured.");
 		}catch(SQLException e) {
-			System.out.println("Error-qwereqwereasd");
+			System.out.println("Error: LogData couldn't save to database because of database connection issiues.");
 		}
 	}
 	
