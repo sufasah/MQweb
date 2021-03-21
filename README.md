@@ -17,7 +17,9 @@ This repository is created for Kartaca internship period task. It is here the us
 
 :grey_exclamation: ---------------------------------------------------------------------------------------------------------------- :grey_exclamation:
 
-**Personal Task Sharing Code:** *gAAAAABgUOwzPuJFbNQpPz8_wPOGRqbfaJoLXJHvwSV1V7pCL0AspLhcYbm6VNs_UnLFjhAPAvm-rPBcNpcQIAEhaKdXackYfhhMvE3MUYWVAqq8EFgZJLOGeUT9DPuTPULbMVfD7QFdhmH2k8_Ps9RBLj07cEQCY0xXYON6GgximjokjiX3ulJD3X-Qc5ez6zcTSYuVtNl0*
+**Personal Task Sharing Code:** *gAAAAABgUOwzPuJFbNQpPz8_wPOGRqbfaJoLXJHvwSV1V7pCL0AspLhcYbm6VNs_UnLFjhAPAvm-
+rPBcNpcQIAEhaKdXackYfhhMvE3MUYWVAqq8EFgZJLOGeUT9DPuTPULbMVfD7QFdhmH2k8_Ps9RB
+Lj07cEQCY0xXYON6GgximjokjiX3ulJD3X-Qc5ez6zcTSYuVtNl0*
 
 :grey_exclamation: ---------------------------------------------------------------------------------------------------------------- :grey_exclamation:
 
