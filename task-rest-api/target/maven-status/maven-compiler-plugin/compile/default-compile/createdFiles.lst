@@ -1,13 +1,13 @@
+kartaca\secondsteptask\taskapi\TaskRestApiApplication.class
+kartaca\secondsteptask\taskapi\resources\DashBoard.class
+kartaca\secondsteptask\taskapi\exceptions\ApiException.class
+kartaca\secondsteptask\taskapi\AsyncConfiguration.class
 kartaca\secondsteptask\taskapi\WebSocketConfiguration.class
 kartaca\secondsteptask\taskapi\domain\LogData.class
 kartaca\secondsteptask\taskapi\resources\DataResource.class
-kartaca\secondsteptask\taskapi\TaskRestApiApplication.class
 kartaca\secondsteptask\taskapi\exceptions\ApiRequestException.class
 kartaca\secondsteptask\taskapi\AsyncConfiguration$1.class
-kartaca\secondsteptask\taskapi\resources\DashBoard.class
 kartaca\secondsteptask\taskapi\services\ChartService.class
 kartaca\secondsteptask\taskapi\data\LogDao.class
-kartaca\secondsteptask\taskapi\exceptions\ApiException.class
 kartaca\secondsteptask\taskapi\exceptions\ApiExceptionHandler.class
-kartaca\secondsteptask\taskapi\AsyncConfiguration.class
 kartaca\secondsteptask\taskapi\services\KafkaService.class

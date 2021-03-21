@@ -11,11 +11,12 @@ window.onload = function() {
 	var customHeaderColor="#4B0082";
 	var customHeaderFontSize = 24;
 	
-	
+	var initDateMin = Date.now()-1000*60*60-1000*30;
 	
 	var chart = new CanvasJS.Chart("chartAll", {
-		zoomEnabled: true,
 		backgroundColor: "#FAFAF5",
+		animationEnabled:true,
+		animationDuration: 1000,
 		  theme: "light1",
 			title: {
 				text: "Rest Api Time Delay Per Response",
@@ -26,7 +27,8 @@ window.onload = function() {
 				title: "Click method types at the top to make them visible or not.",
 			    interval: 1,
 			    intervalType: "minute",
-			
+				viewportMinimum: initDateMin,
+				viewportMaximum: getDateMaxForAll(),
 			},
 			axisY:{
 				title: "Time Delay",
@@ -35,6 +37,21 @@ window.onload = function() {
 			}, 
 			toolTip: {
 				shared: true,
+				contentFormatter: function(e){
+					var x= e.entries[0].dataPoint.x;
+					x=new Date(x);
+					x=getHHmmss(x);
+					var res= '<div style="text-align:center;margin-top:5px;margin-bottom:5px;color:MidnightBlue;">'+x+'</div>';
+					e.entries.map(entry =>{
+						var color;
+						if(entry.dataSeries.name=="GET") color="SeaGreen";
+						else if(entry.dataSeries.name=="POST") color="Gold";
+						else if(entry.dataSeries.name=="PUT") color="CornflowerBlue";
+						else color="Crimson";
+						res+='<div style="margin:1px;height:20px;"><span style="color:'+color+';">'+capitalize(entry.dataSeries.name)+' : '+entry.dataPoint.y.toFixed(2)+' seconds</span></div>';
+					});
+					return res;
+				},
 			},
 			legend: {
 				cursor:"pointer",
@@ -55,7 +72,6 @@ window.onload = function() {
 				markerColor:"SeaGreen",
 				lineThickness: 2,
 				markerSize: 5,
-				toolTipContent: customToolTipContent("SeaGreen"),
 				dataPoints: dataPoints[0],
 				
 			},
@@ -71,7 +87,6 @@ window.onload = function() {
 				markerColor:"Gold",
 				lineThickness: 2,
 				markerSize: 5,
-				toolTipContent:'<span style="color:Gold;">{name} : {y}</span>',
 				dataPoints: dataPoints[1]
 			},
 			{				
@@ -86,7 +101,6 @@ window.onload = function() {
 				markerColor:"CornflowerBlue",
 				lineThickness: 2,
 				markerSize: 5,
-				toolTipContent:'<span style="color:CornflowerBlue;">{name} : {y}</span>',
 				dataPoints: dataPoints[2]
 			},
 			{				
@@ -101,7 +115,6 @@ window.onload = function() {
 				markerColor:"Crimson",
 				lineThickness: 2,
 				markerSize: 5,
-				toolTipContent:'<span style="color:Crimson;">{name} : {y}</span>',
 				dataPoints: dataPoints[3]
 			}]
 		});
@@ -120,6 +133,8 @@ window.onload = function() {
 				axisX: {
 				    interval: 1,
 				    intervalType: "minute",
+					viewportMinimum: initDateMin,
+					viewportMaximum: getDateMax(0),
 				},
 				axisY:{
 					title: "Time Delay",
@@ -165,6 +180,8 @@ window.onload = function() {
 			axisX: {
 			    interval: 1,
 			    intervalType: "minute",
+				viewportMinimum: initDateMin,
+				viewportMaximum: getDateMax(1),
 			},
 			axisY:{
 				title: "Time Delay",
@@ -210,6 +227,8 @@ window.onload = function() {
 			axisX: {
 			    interval: 1,
 			    intervalType: "minute",
+				viewportMinimum: initDateMin,
+				viewportMaximum: getDateMax(2),
 			},
 			axisY:{
 				title: "Time Delay",
@@ -255,6 +274,8 @@ window.onload = function() {
 			axisX: {
 			    interval: 1,
 			    intervalType: "minute",
+				viewportMinimum: initDateMin,
+				viewportMaximum: getDateMax(3),
 			},
 			axisY:{
 				title: "Time Delay",
@@ -318,7 +339,7 @@ window.onload = function() {
 		var dateNow= data.timestamp;
 		var dateMin = dateNow-1000*60*60-1000*60;
 		
-		var typeText= data.methodType.charAt(0) + data.methodType.slice(1).toLowerCase();
+		var typeText= capitalize(data.methodType);
 		chart.options.data[type].legendText = " "+typeText+" Method -  " + data.timeDelay.toFixed(2);
 
 		chart.options.axisX.viewportMinimum=dateMin;
@@ -374,4 +395,31 @@ window.onload = function() {
 		chart.render();
 	}
 	
+	function getDateMax(index){
+		var arr = dataPoints[index];
+		if(arr.length>0){
+			arr=arr[arr.length-1];
+			return arr.x;
+		}
+		return Date.now();
+	}
+	function getDateMaxForAll(){
+		var res=-1;
+		dataPoints.map(i=>{
+			if(i.length>0)
+				res= Math.max(res,i[i.length-1].x);
+		});
+		if(res==-1)
+			return Date.now();
+		return res;
+	}
+	
+	function capitalize(str){
+		return str.charAt(0).toUpperCase()+str.slice(1).toLowerCase();
+	}
+	
+	function getHHmmss(date){
+		var z="0";
+		return (z+date.getHours()).slice(-2)+':'+(z+date.getMinutes()).slice(-2)+':'+(z+date.getSeconds()).slice(-2);
+	}
 }

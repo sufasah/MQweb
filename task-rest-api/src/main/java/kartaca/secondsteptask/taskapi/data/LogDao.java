@@ -26,7 +26,7 @@ public class LogDao {
 	public ArrayList<LogData> getOneHourLogDatas() throws SQLException{
 		ArrayList<LogData> logDatas = new ArrayList<LogData>();
 		Connection conn = getConnection();
-		PreparedStatement stmt = conn.prepareStatement("select * from logs where timestamp >= ?");
+		PreparedStatement stmt = conn.prepareStatement("select * from logs where timestamp >= ? order by timestamp asc");
 		stmt.setLong(1, System.currentTimeMillis()-1000*60*60*1);
 		ResultSet result = stmt.executeQuery();
 		while(result.next()) {
