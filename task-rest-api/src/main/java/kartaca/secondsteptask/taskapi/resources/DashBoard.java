@@ -25,8 +25,4 @@ public class DashBoard {
 		return "dashboard";
 	}
 	
-	/*@GetMapping("chart-data")
-	public RequestMapping<Object> lastChartData(){
-		chartService
-	}*/
 }

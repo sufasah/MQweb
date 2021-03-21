@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +35,9 @@ public class DataResource {
 	@Autowired
 	private KafkaService kafkaService;
 	
+	@Autowired
+	private SimpMessagingTemplate brokerMessagingTemplate;
+	
 	private void doTask(final String methodType) {
 		LogData logData = new LogData(methodType,new Random().nextFloat()*3,System.currentTimeMillis());
 		
@@ -55,7 +59,7 @@ public class DataResource {
 			logWriter.close();
 			
 		}catch(IOException e) {
-			throw new ApiRequestException("Log file 'mylog.txt' can not be created or opened.");
+			System.out.println("Log file 'mylog.txt' can not be created or opened.");
 		}
 		
 		try {
@@ -63,6 +67,9 @@ public class DataResource {
 		} catch (InterruptedException e) {}
 		
 		kafkaService.sendLogData(logData);
+		
+		brokerMessagingTemplate.convertAndSend("/last-logs/dashboard",logData);
+		
 	}
 	private ResponseEntity<Map<String,Object>> successMessage(){
 		Map<String,Object> result = new HashMap<String,Object>();

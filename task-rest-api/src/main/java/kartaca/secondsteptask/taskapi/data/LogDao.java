@@ -16,7 +16,7 @@ public class LogDao {
 	private Connection conn;
 	
 	public Connection getConnection() throws SQLException{
-		while(conn==null) {
+		if(conn==null) {
 			conn= DriverManager.getConnection("jdbc:mysql://task-database:3306/kartaca","root",null);
 		}
 		return conn;

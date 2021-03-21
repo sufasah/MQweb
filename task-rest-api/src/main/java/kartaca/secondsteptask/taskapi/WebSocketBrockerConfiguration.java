@@ -17,7 +17,6 @@ public class WebSocketBrockerConfiguration implements WebSocketMessageBrokerConf
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
 		registry.setApplicationDestinationPrefixes("/app")
-			.enableSimpleBroker("/last-logs","/queue");
-		
+			.enableSimpleBroker("/last-logs");
 	}
 }
