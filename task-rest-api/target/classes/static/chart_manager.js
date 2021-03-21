@@ -4,6 +4,7 @@ var dataPoints = [
 	[],
 	[],
 ];
+var intervalDate = Date.now();
 window.onload = function() {
 	
 	var customToolTipContent=function(color){return '<div style="text-align:center;margin-top:5px;margin-bottom:5px;color:MidnightBlue;">{x}</div><span style="color:'+color+';">{name} : {y}</span>';}
@@ -17,7 +18,6 @@ window.onload = function() {
 		backgroundColor: "#FAFAF5",
 		animationEnabled:true,
 		animationDuration: 1000,
-		zoomEnabled: true,
 		  theme: "light1",
 			title: {
 				text: "Rest Api Time Delay Per Response",
@@ -72,6 +72,8 @@ window.onload = function() {
 				lineColor: "SeaGreen",
 				markerColor:"SeaGreen",
 				lineThickness: 2,
+				nullDataLineDashType:  "dot",
+				connectNullData: true,
 				markerSize: 5,
 				dataPoints: dataPoints[0],
 				
@@ -86,6 +88,8 @@ window.onload = function() {
 				name: "POST" ,
 				lineColor: "Gold",
 				markerColor:"Gold",
+				connectNullData: true,
+				nullDataLineDashType:  "dot",
 				lineThickness: 2,
 				markerSize: 5,
 				dataPoints: dataPoints[1]
@@ -100,6 +104,8 @@ window.onload = function() {
 				name: "PUT" ,
 				lineColor: "CornflowerBlue",
 				markerColor:"CornflowerBlue",
+				nullDataLineDashType:  "dot",
+				connectNullData: true,
 				lineThickness: 2,
 				markerSize: 5,
 				dataPoints: dataPoints[2]
@@ -111,9 +117,11 @@ window.onload = function() {
 				yValueFormatString: "##0.#0 seconds",
 				xValueFormatString: "HH:mm:ss",
 				showInLegend: true,
+				nullDataLineDashType:  "dot",
 				name: "DELETE" ,
 				lineColor: "Crimson",
 				markerColor:"Crimson",
+				connectNullData: true,
 				lineThickness: 2,
 				markerSize: 5,
 				dataPoints: dataPoints[3]
@@ -159,6 +167,8 @@ window.onload = function() {
 					showInLegend: true,
 					name: "GET",
 					lineColor: "SeaGreen",
+					nullDataLineDashType:  "dot",
+					connectNullData: true,
 					markerColor:"SeaGreen",
 					lineThickness: 3,
 					markerSize: 5,
@@ -205,7 +215,9 @@ window.onload = function() {
 				xValueFormatString: "HH:mm:ss",
 				showInLegend: true,
 				name: "POST",
+				nullDataLineDashType:  "dot",
 				lineColor: "Gold",
+				connectNullData: true,
 				markerColor:"Gold",
 				lineThickness: 3,
 				markerSize: 5,
@@ -254,6 +266,8 @@ window.onload = function() {
 				name: "PUT",
 				lineColor: "CornflowerBlue",
 				markerColor:"CornflowerBlue",
+				nullDataLineDashType:  "dot",
+				connectNullData: true,
 				lineThickness: 3,
 				markerSize: 5,
 				toolTipContent: customToolTipContent("CornflowerBlue"),
@@ -300,7 +314,9 @@ window.onload = function() {
 				showInLegend: true,
 				name: "DELETE",
 				lineColor: "Crimson",
+				connectNullData: true,
 				markerColor:"Crimson",
+				nullDataLineDashType:  "dot",
 				lineThickness: 3,
 				markerSize: 5,
 				toolTipContent: customToolTipContent("Crimson"),
@@ -310,6 +326,8 @@ window.onload = function() {
 	
 	renderCharts();
 	
+	var queue=[];
+	
 	// WEBSOCKET CONNECTION HANDLING
 	var webSocket = new SockJS('/dashboard');
 	var stompClient = Stomp.over(webSocket);
@@ -317,65 +335,100 @@ window.onload = function() {
 	stompClient.connect({},function(frame){
 		stompClient.subscribe("/last-logs/dashboard",function(message){
 			var data= JSON.parse(message.body);
-			updateChart(data);
+			queue.push(data);
 		});
 	});
 	
 	
+	var intervalPeriod=500;
 	
-	function updateChart(data) {
-		
-		var type;
-		if(data.methodType=="GET") type=0;
-		else if(data.methodType=="POST") type=1;
-		else if(data.methodType=="PUT") type=2;
-		else if(data.methodType=="DELETE") type=3;
-		
-		
-		dataPoints[type].push({
-			x: data.timestamp,
-			y: data.timeDelay,
-		});
-		
-		var dateNow= data.timestamp;
-		var dateMin = dateNow-1000*60*60-1000*60;
-		
-		var typeText= capitalize(data.methodType);
-		chart.options.data[type].legendText = " "+typeText+" Method -  " + data.timeDelay.toFixed(2);
-
-		chart.options.axisX.viewportMinimum=dateMin;
-		chart.options.axisX.viewportMaximum=dateNow;
-		
-		chart.render();
-
-		if(type===0){
-			chartGet.options.data[0].legendText = " Get Method -  " + data.timeDelay.toFixed(2);
-			chartGet.options.axisX.viewportMinimum=dateMin;	
-			chartGet.options.axisX.viewportMaximum=dateNow;
-			chartGet.render();
+	setInterval(function(){
+		intervalDate=intervalDate+intervalPeriod;
+		var datas=[];
+		while(queue.length>0 && queue[0].timestamp<=intervalDate){
+			datas.push(queue.shift());
 		}
-		else if(type===1){
-			chartPost.options.data[0].legendText = " Post Method -  " + data.timeDelay.toFixed(2);
+		if(datas.length==0) updateChart([{methodType:"DELETE",timeDelay:null,timestamp:intervalDate}]);
+		else updateChart(datas);
+		
+	},intervalPeriod);
+	
+	setInterval(function(){
+		var dateLast=Date.now()-1000*60*60-1000*30;
+		for(var i =0;i<4;i++){
+			var points = dataPoints[i];
+			while(points.length>0 && points[0].x<=dateLast)
+				dataPoints[i].shift();
+		}
+	},1000*60*2);
+	
+	
+	function updateChart(datas) {
+		if(datas.length==1 && datas[0].timeDelay==null){
+			for(var i=0;i<4;i++)
+				dataPoints[i].push({
+					x: datas[0].timestamp,
+					y: null,
+				});
+			var dateNow= datas[0].timestamp;
+			var dateMin = dateNow-1000*60*60-1000*60;
+			
+			chart.options.axisX.viewportMinimum=dateMin;
+			chart.options.axisX.viewportMaximum=dateNow;
+			chartGet.options.axisX.viewportMinimum=dateMin;
+			chartGet.options.axisX.viewportMaximum=dateNow;
 			chartPost.options.axisX.viewportMinimum=dateMin;
 			chartPost.options.axisX.viewportMaximum=dateNow;
-			chartPost.render();
-		}
-		else if(type===2){
-			chartPut.options.data[0].legendText = " Put Method -  " + data.timeDelay.toFixed(2);
 			chartPut.options.axisX.viewportMinimum=dateMin;
 			chartPut.options.axisX.viewportMaximum=dateNow;
-			chartPut.render();			
-		}
-		else if(type===3){
-			chartDelete.options.data[0].legendText = " Delete Method -  " + data.timeDelay.toFixed(2);						
 			chartDelete.options.axisX.viewportMinimum=dateMin;
 			chartDelete.options.axisX.viewportMaximum=dateNow;
-			chartDelete.render();
+			renderCharts();
+			return;
 		}
-		
-		
-		
-		
+		datas.map(data=>{
+			var type;
+			if(data.methodType=="GET") type=0;
+			else if(data.methodType=="POST") type=1;
+			else if(data.methodType=="PUT") type=2;
+			else if(data.methodType=="DELETE") type=3;
+			
+			
+			dataPoints[type].push({
+				x: data.timestamp,
+				y: data.timeDelay,
+			});
+			
+			var dateNow= data.timestamp;
+			var dateMin = dateNow-1000*60*60-1000*60;
+			
+			var typeText= capitalize(data.methodType);
+			chart.options.axisX.viewportMinimum=dateMin;
+			chart.options.axisX.viewportMaximum=dateNow;
+			chart.options.data[type].legendText = " "+typeText+" Method -  " + data.timeDelay.toFixed(2);
+	
+			if(type===0){
+				chartGet.options.data[0].legendText = " Get Method -  " + data.timeDelay.toFixed(2);
+				chartGet.options.axisX.viewportMinimum=dateMin;	
+				chartGet.options.axisX.viewportMaximum=dateNow;
+			}
+			else if(type===1){
+				chartPost.options.data[0].legendText = " Post Method -  " + data.timeDelay.toFixed(2);
+				chartPost.options.axisX.viewportMinimum=dateMin;
+				chartPost.options.axisX.viewportMaximum=dateNow;
+			}
+			else if(type===2){
+				chartPut.options.data[0].legendText = " Put Method -  " + data.timeDelay.toFixed(2);
+				chartPut.options.axisX.viewportMinimum=dateMin;
+				chartPut.options.axisX.viewportMaximum=dateNow;
+			}
+			else if(type===3){
+				chartDelete.options.data[0].legendText = " Delete Method -  " + data.timeDelay.toFixed(2);						
+				chartDelete.options.axisX.viewportMinimum=dateMin;
+				chartDelete.options.axisX.viewportMaximum=dateNow;
+			}
+		});
+		renderCharts();
 	}
 
 	function renderCharts(){

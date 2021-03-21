@@ -14,20 +14,6 @@
 </style>
 <script type="text/javascript" th:src="@{/sockjs.min.js}"></script>
 <script type="text/javascript" th:src="@{/chart_manager.js}"></script>
-<script>
-dataPoints[0].push({
-	x : 1616352470564,
-	y : 0.8581588,
-});
-dataPoints[1].push({
-	x : 1616352470564,
-	y : 1.5581588,
-});
-dataPoints[2].push({
-	x : 1616352470564,
-	y : 2.8581588,
-});
-</script>
 <script th:inline="javascript" type="text/javascript">
 	[# th:each="dataPoints : ${dataPointsList}"]
 		[# th:each="dataPoint : ${dataPoints}"]
