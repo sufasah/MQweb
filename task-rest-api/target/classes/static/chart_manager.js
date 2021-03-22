@@ -329,15 +329,22 @@ window.onload = function() {
 	var queue=[];
 	
 	// WEBSOCKET CONNECTION HANDLING
-	var webSocket = new SockJS('/dashboard');
-	var stompClient = Stomp.over(webSocket);
+	function connectBroker(){
+		var webSocket = new SockJS('/dashboard');
+		var stompClient = Stomp.over(webSocket);
 	
-	stompClient.connect({},function(frame){
-		stompClient.subscribe("/last-logs/dashboard",function(message){
-			var data= JSON.parse(message.body);
-			queue.push(data);
+		stompClient.connect({},function(frame){
+			stompClient.subscribe("/last-logs/dashboard",function(message){
+				var data= JSON.parse(message.body);
+				queue.push(data);
+			});
+		},function(error){
+			console.log('STOMP: ' + error);
+		    setTimeout(connectBroker, 5000);
+		    console.log('STOMP: Reconecting in 5 seconds');
 		});
-	});
+	}
+	connectBroker();
 	
 	
 	var intervalPeriod=1000;
