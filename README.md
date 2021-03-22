@@ -46,6 +46,13 @@ Or if you use windows, you can just execute [start-project.bat](./start-project.
 
 If all containers created successfully, that means system is on! You can send http requests and watch dashboard's change.
 
+To turn off the system you can run commands below or also just execute [stop-project.bat](./stop-project.bat) file.
+
+```shell
+C:\task-parent> docker-compose down
+```
+
+
 # Görev Uygulaması
 Bu depo kartaca staj süreci görevi için oluşturulmuştur. İşte kullanılan teknolojiler:
 
@@ -95,3 +102,8 @@ Ya da eğer windows kulanıyorsanız, sadece kök dizindeki [start-project.bat](
 
 Eğer tüm konteynerlar başarıyla oluşturulduysa, bu demektir ki sistem çalışıyor! Http istekleri gönderebilir ve panonun değişimini izleyebilirsiniz.
 
+Sistemi durdurmak için aşağıdaki komutları çalıştırabilirsiniz ya da yine sadece [stop-project.bat](./stop-project.bat) dosyasını çalıştırabilirsiniz.
+
+```shell
+C:\task-parent> docker-compose down
+```
