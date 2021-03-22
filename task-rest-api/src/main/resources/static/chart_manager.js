@@ -340,10 +340,10 @@ window.onload = function() {
 	});
 	
 	
-	var intervalPeriod=500;
+	var intervalPeriod=1000;
 	
 	setInterval(function(){
-		intervalDate=intervalDate+intervalPeriod;
+		intervalDate=Date.now();
 		var datas=[];
 		while(queue.length>0 && queue[0].timestamp<=intervalDate){
 			datas.push(queue.shift());

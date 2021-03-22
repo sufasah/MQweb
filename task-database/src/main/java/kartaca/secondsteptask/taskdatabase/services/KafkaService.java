@@ -1,6 +1,7 @@
 package kartaca.secondsteptask.taskdatabase.services;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement; 
 import java.sql.SQLException;
 import java.sql.SQLTimeoutException; 
@@ -42,8 +43,10 @@ public class KafkaService {
 			})
 	public void saveLogDatas(@Payload String json,@Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition){
 		try {
+			if(!conn.isValid(1)) {
+				conn = DriverManager.getConnection("jdbc:mysql://task-database:3306/kartaca","root",null);
+			}
 			LogData logData= new ObjectMapper().readValue(json,LogData.class);
-			
 			PreparedStatement stmt= conn.prepareStatement("insert into logs(method_type,time_delay,timestamp) values (?,?,?)");
 			stmt.setString(1, logData.getMethodType());
 			stmt.setFloat(2, logData.getTimeDelay());
@@ -54,6 +57,7 @@ public class KafkaService {
 			else {
 				System.out.println("Warning: LogData could not be inserted to database.");
 			}
+			stmt.close();
 		} catch (JsonProcessingException e) {
 			System.out.println("Error: While fetching LogData via kafka the data could not be converted to json.");
 		}catch(SQLTimeoutException e) {

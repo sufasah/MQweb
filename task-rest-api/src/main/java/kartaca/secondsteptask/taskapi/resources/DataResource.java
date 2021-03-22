@@ -59,7 +59,7 @@ public class DataResource {
 			logWriter.close();
 			
 		}catch(IOException e) {
-			System.out.println("Log file 'mylog.txt' can not be created or opened.");
+			System.out.println("Log file 'mylog.txt' can not be created or opened to write.");
 		}
 		
 		try {

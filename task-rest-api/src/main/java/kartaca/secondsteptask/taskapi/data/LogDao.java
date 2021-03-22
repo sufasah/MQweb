@@ -26,6 +26,9 @@ public class LogDao {
 	public ArrayList<LogData> getOneHourLogDatas() throws SQLException{
 		ArrayList<LogData> logDatas = new ArrayList<LogData>();
 		Connection conn = getConnection();
+		if(!conn.isValid(1)) {
+			conn=DriverManager.getConnection("jdbc:mysql://task-database:3306/kartaca","root",null);
+		}
 		PreparedStatement stmt = conn.prepareStatement("select * from logs where timestamp >= ? order by timestamp asc");
 		stmt.setLong(1, System.currentTimeMillis()-1000*60*60*1);
 		ResultSet result = stmt.executeQuery();
@@ -33,6 +36,8 @@ public class LogDao {
 			LogData logData= new LogData(result.getString(2),result.getFloat(3),result.getLong(4));
 			logDatas.add(logData);
 		}
+		stmt.close();
+		result.close();
 		return logDatas;
 	}
 }
