@@ -1,0 +1,38 @@
+Tebrikler Fadil Sahin, görev icerigine ulastin!
+
+iste bekledigimiz görevin gereksinimleri;
+
+Tercih ettiginiz bir dil ile (tercihen Java / Go / PHP / Python) yapilacak bir REST API'da GET, POST, PUT ve DELETE isteklerini karsilayabilecek 4 farkli endpoint sunulmalidir. POST ve PUT metotlari, istekleri bos request body ile kabul edebilmelidir.
+
+Bu API'ye gelen her istek icin random 0-3 sn arasinda basarili bir yanit dönmeli ve yanit dönulmeden hemen önce "{metot tipi},{istek cevaplama ms},{timestamp}" gibi bir icerik ile log dosyasina istegin ne kadar surdugu yazilmalidir. Orn log: "GET,1000,1614679220"
+
+Async bir job, log dosyasina anlik olarak yazilan satirlari alip Kafka'ya belirlenen bir formatta göndermelidir.
+
+Bir consumer Kafka'ya gönderilen log bilgisini yakalayip, uygun görulen bir veritabanina yazmalidir (RDBMS veya NoSQL gibi).
+
+Son 1 saatteki API isteklerinin ne kadar surede tamamlandiklari bir dashboard ekraninda grafik olarak gösterilmeli ve grafik canli olarak guncellenmelidir.
+
+istek tiplerine (PUT,DELETE gibi) göre ayri renklendirme yapilmalidir.
+
+Ornek grafik ekran göruntusu;
+
+https://kartaca.com/wp-content/uploads/2021/03/cekirdekten_yetisenler_usg_dashboard.png
+
+
+Kod deposunu bize iletirken senden istedigimiz sana özel anahtar kodu: gAAAAABgUOwzPuJFbNQpPz8_wPOGRqbfaJoLXJHvwSV1V7pCL0AspLhcYbm6VNs_UnLFjhAPAvm-rPBcNpcQIAEhaKdXackYfhhMvE3MUYWVAqq8EFgZJLOGeUT9DPuTPULbMVfD7QFdhmH2k8_Ps9RBLj07cEQCY0xXYON6GgximjokjiX3ulJD3X-Qc5ez6zcTSYuVtNl0
+
+
+Notlar;
+
+* Uygulamanin ve ara yuzun Docker ile nasil derlenip calisir hale getirilecegi README olarak yazilmis olmalidir. Docker-compose uzerinden tek bir komut ile calisacak sekilde servis edilmelidir. Veritabani gibi bagimliliklar da icerisinde yer almalidir.
+
+* README icerisinde servis endpoint'lerine nasil istek atilacagi, ara yuz adresinin ne oldugu gibi projenin nasil calistirilacagina dair bilgiler yer almalidir.
+
+* Yukarida verilen sana özel anahtar kodu da README icerisine eklenmelidir.
+
+* Görev icerigine ulasmak icin kullanilan kod ve proje GitHub, GitLab, Bitbucket gibi erisime acik bir repo'ya gönderilerek, baglanti adresi insankaynaklari@kartaca.com'a iletilmelidir. Kod deposu uzerinden paylasim saglanamiyorsa, indirilebilir dosyalara ulasmamiz icin bir dosya/baglanti iletilmelidir.
+
+
+Görevlerdeki tum gereksinimleri yerine getiremediyseniz bile, moralinizi bozmayin ve tamamladiginiz kadarini bizimle mutlaka paylasin.
+
+Kolay gelsin!
