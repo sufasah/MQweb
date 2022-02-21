@@ -1,5 +1,4 @@
 # Task Application
-This repository is created for Kartaca internship period task. It is here the used technologies:
 
 | Database  | Rest Api and Database Service | Containerization | Event Streaming | 
 |:-:|:-:|:-:|:-:|
@@ -54,7 +53,6 @@ C:\task-parent> docker-compose down
 
 
 # Görev Uygulaması
-Bu depo kartaca staj süreci görevi için oluşturulmuştur. İşte kullanılan teknolojiler:
 
 | Veritabanı  | Rest Arayüzü ve Veritabanı Servisi | Konteynerizasyon | Olay Akışları | 
 |:-:|:-:|:-:|:-:|
